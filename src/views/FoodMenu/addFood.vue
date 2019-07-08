@@ -47,6 +47,7 @@ export default {
       food.save().then((response) => {
         // 成功
         this.$Message.success('添加成功')
+        this.foodName = ''
       }, (error) => {
         // 失败
         this.$Message.error(JSON.stringify(error))
