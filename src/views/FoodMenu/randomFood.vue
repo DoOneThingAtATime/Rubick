@@ -5,7 +5,7 @@
       <div class="lineTwo">{{text}}</div>
     </div>
     <div v-if="notEnough" class="emptyBox">
-      <img class="emptyImg" src="./empty.png" alt="">
+      <img class="emptyImg" src="https://cdn.nlark.com/yuque/0/2019/png/138421/1562572107779-955a70e2-b57e-40b4-8e43-535bd4b4e766.png" alt="">
     </div>
     <template v-else>
       <div class="randomBox">
