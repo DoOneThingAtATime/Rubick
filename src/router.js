@@ -16,6 +16,16 @@ export default new Router({
           component: () => import(/* webpackChunkName: "user" */'./views/User/Register')
         }
       ]
+    },
+    {
+      path: '/randomFood',
+      name: 'randomFood',
+      component: () => import(/* webpackChunkName: "user" */'./views/FoodMenu/randomFood')
+    },
+    {
+      path: '/addFood',
+      name: 'addFood',
+      component: () => import(/* webpackChunkName: "user" */'./views/FoodMenu/addFood')
     }
   ]
 })

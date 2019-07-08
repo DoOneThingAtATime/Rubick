@@ -1,18 +1,14 @@
 <template>
-  <div class="loginPage">
+  <div class="addFoodPage">
     <div class="header">
       <div class="triangle"></div>
-      <div class="lineOne">Welcome,</div>
-      <div class="lineTwo">sign in to continue</div>
+      <div class="lineTwo">添加一个你喜欢的食物</div>
     </div>
-    <div class="inputBox">
-      <div class="label">username</div>
-      <div><input type="text" v-model="username" placeholder="请使用邮箱作为账号"></div>
-
-      <div class="label">password</div>
-      <div><input type="password" v-model="password"></div>
+    <div class="form">
+      <div class="label">食物名称</div>
+      <input type="text">
     </div>
-    <div class="buttonBox" @click="login">Get Started --></div>
+    <div class="buttonBox" @click="onClickAdd">Add --></div>
   </div>
 </template>
 
@@ -20,63 +16,61 @@
 import AV from '../../utils/request'
 
 export default {
+  created () {
+    this._getUser()
+    this.$nextTick(this._getFoods())
+  },
   data () {
     return {
-      username: '',
-      password: ''
+      currentUser: null
     }
   },
-  created () {
-    console.log(AV)
-  },
   methods: {
-    login () {
-      const { username, password } = this
-      if (!username || !password) {
-        this.$Message.error('请输入用户名和密码')
-        return
-      }
-      const user = new AV.User()
-      user.setUsername(username)
-      user.setPassword(password)
-      user.setEmail(username)
-      user.signUp().then((loggedInUser) => {
-        console.log(loggedInUser)
-        this.$Message.success('注册成功 登录成功')
+    _getFoods () {
+      const query = new AV.Query('DataTypeTest')
+      query.equalTo('user', this.currentUser)
+      query.find().then((response) => {
+        console.log(response)
+        // 如果这样写，第二个条件将覆盖第一个条件，查询只会返回 priority = 1 的结果
       }, (error) => {
-        this._logError('error', error)
-
-        if (error.code === 125) {
-          this.$Message.error('请填写正确的邮箱')
-        } else if (error.code === 203) {
-          AV.User.loginWithEmail(username, password).then((loggedInUser) => {
-            this.$Message.success('登陆成功')
-            console.log(loggedInUser)
-          }, (loginError) => {
-            this._logError('loginError', loginError)
-            if (loginError.code === 210) {
-              this.$Message.error('账号名密码不正确')
-            } else {
-              this.$Message.error(JSON.stringify(loginError))
-            }
-          })
-        } else {
-          this.$Message.error(JSON.stringify(error))
-        }
+        this.$Message.error(error)
       })
     },
-    _logError (text, error) {
-      console.log(text)
-      console.log(error)
-      console.log(`${text}.code`)
-      console.log(error.code)
+    _getUser () {
+      this.currentUser = AV.User.current()
+    },
+    onClickAdd () {
+      // 该语句应该只声明一次
+      const TestObject = AV.Object.extend('DataTypeTest')
+
+      const number = 2014
+      const string = 'famous film name is ' + number
+      const date = new Date()
+      const array = [string, number]
+      const object = { number: number, string: string }
+
+      const testObject = new TestObject()
+      const username = this.currentUser.attributes.username
+      testObject.set('username', username)
+      testObject.set('testNumber', number)
+      testObject.set('testString', string)
+      testObject.set('testDate', date)
+      testObject.set('testArray', array)
+      testObject.set('testObject', object)
+      testObject.set('testNull', null)
+      testObject.save().then(function (testObject) {
+        // 成功
+      }, (error) => {
+        // 失败
+        this.$Message.error(JSON.stringify(error))
+      })
     }
   }
 }
 </script>
 
-<style lang="less">
-  .loginPage {
+<style lang="less" scoped>
+  .addFoodPage {
     padding: 0 30px;
     .header {
       .triangle {
@@ -95,7 +89,7 @@ export default {
         font-size: 32px;
       }
     }
-    .inputBox {
+    .form {
       margin: 60px 0;
       div + .label {
         margin-top: 16px;
@@ -132,6 +126,7 @@ export default {
       padding: 16px;
       border-radius: 4px;
       display: inline-block;
+      font-size: 20px;
       font-weight: bold;
       background: rgb(242, 245, 248);
       color: rgb(108, 110, 116);
