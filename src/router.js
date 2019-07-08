@@ -6,6 +6,10 @@ Vue.use(Router)
 export default new Router({
   routes: [
     {
+      path: '/',
+      redirect: '/user/register'
+    },
+    {
       path: '/user',
       component: () => import(/* webpackChunkName: "user" */'./layouts/UserLayout'),
       redirect: '/user/register',

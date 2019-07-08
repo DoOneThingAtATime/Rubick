@@ -6,7 +6,7 @@ set -e
 # 构建
 npm run build
 
-# cd 到构建输出的目录下 
+# cd 到构建输出的目录下
 cd dist
 
 git init
@@ -16,6 +16,6 @@ git add -A
 git commit -m 'update page'
 
 # 部署到 https://<USERNAME>.github.io/<REPO>
-git push -f https://github.com/DoOneThingAtATime/css-collect.git master:gh-pages
+git push -f https://github.com/DoOneThingAtATime/Rubick.git master:gh-pages
 
 cd -

@@ -27,7 +27,6 @@ export default {
     }
   },
   created () {
-    console.log(AV)
   },
   methods: {
     login () {
@@ -41,8 +40,8 @@ export default {
       user.setPassword(password)
       user.setEmail(username)
       user.signUp().then((loggedInUser) => {
-        console.log(loggedInUser)
         this.$Message.success('注册成功 登录成功')
+        this.$router.push({ path: '/randomFood' })
       }, (error) => {
         this._logError('error', error)
 
@@ -51,7 +50,7 @@ export default {
         } else if (error.code === 203) {
           AV.User.loginWithEmail(username, password).then((loggedInUser) => {
             this.$Message.success('登陆成功')
-            console.log(loggedInUser)
+            this.$router.push({ path: '/randomFood' })
           }, (loginError) => {
             this._logError('loginError', loginError)
             if (loginError.code === 210) {
