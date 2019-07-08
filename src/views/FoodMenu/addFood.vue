@@ -8,7 +8,8 @@
       <div class="label">食物名称</div>
       <input type="text" v-model="foodName">
     </div>
-    <div class="buttonBox" @click="onClickAdd">Add --></div>
+    <div class="theme-button" @click="onClickAdd">添加 --></div>
+    <div class="theme-button" @click="onClickSelect">去选择吃的啦 --></div>
   </div>
 </template>
 
@@ -18,7 +19,6 @@ import AV from '../../utils/request'
 export default {
   created () {
     this._getUser()
-    this.$nextTick(this._getFoods())
   },
   data () {
     return {
@@ -27,27 +27,24 @@ export default {
     }
   },
   methods: {
-    _getFoods () {
-      const query = new AV.Query('DataTypeTest')
-      query.equalTo('user', this.currentUser)
-      query.find().then((response) => {
-        console.log(response)
-        // 如果这样写，第二个条件将覆盖第一个条件，查询只会返回 priority = 1 的结果
-      }, (error) => {
-        this.$Message.error(error)
-      })
-    },
     _getUser () {
       this.currentUser = AV.User.current()
     },
+    onClickSelect () {
+      this.$router.push({ path: '/randomFood' })
+    },
     onClickAdd () {
       // 该语句应该只声明一次
-      const AFood = AV.Object.extend('Food')
       const { currentUser, foodName } = this
+      if (!foodName) {
+        this.$Message.error('请填写食物名称')
+        return
+      }
+      const AFood = AV.Object.extend('Food')
       const food = new AFood()
       food.set('foodName', foodName)
       food.set('user', currentUser)
-      food.save().then(function (testObject) {
+      food.save().then((response) => {
         // 成功
         this.$Message.success('添加成功')
       }, (error) => {
@@ -111,15 +108,6 @@ export default {
           background-size: 100% 2px, 2px 100%, 100% 2px, 2px 100%;
         }
       }
-    }
-    .buttonBox {
-      padding: 16px;
-      border-radius: 4px;
-      display: inline-block;
-      font-size: 20px;
-      font-weight: bold;
-      background: rgb(242, 245, 248);
-      color: rgb(108, 110, 116);
     }
   }
 </style>

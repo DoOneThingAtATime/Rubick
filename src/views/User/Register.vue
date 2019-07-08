@@ -12,7 +12,7 @@
       <div class="label">password</div>
       <div><input type="password" v-model="password"></div>
     </div>
-    <div class="buttonBox" @click="login">Get Started --></div>
+    <div class="theme-button" @click="login">Get Started --></div>
   </div>
 </template>
 
@@ -127,14 +127,6 @@ export default {
           background-size: 100% 2px, 2px 100%, 100% 2px, 2px 100%;
         }
       }
-    }
-    .buttonBox {
-      padding: 16px;
-      border-radius: 4px;
-      display: inline-block;
-      font-weight: bold;
-      background: rgb(242, 245, 248);
-      color: rgb(108, 110, 116);
     }
   }
 </style>

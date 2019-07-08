@@ -1,4 +1,19 @@
+@import './reset';
 @import './ivu-theme';
+
 html, body {
   font-family: -apple-system,BlinkMacSystemFont,Helvetica Neue,PingFang SC,Microsoft YaHei,Source Han Sans SC,Noto Sans CJK SC,WenQuanYi Micro Hei,sans-serif;
+}
+
+.theme-button {
+  padding: 16px;
+  border-radius: 4px;
+  display: inline-block;
+  font-weight: bold;
+  background: rgb(242, 245, 248);
+  color: rgb(108, 110, 116);
+  font-size: 16px;
+  & + & {
+    margin-left: 8px;
+  }
 }
