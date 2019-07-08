@@ -20,18 +20,18 @@
 import AV from '../../utils/request'
 
 export default {
-  data() {
+  data () {
     return {
       username: '',
       password: ''
     }
   },
-  created() {
+  created () {
     console.log(AV)
   },
   methods: {
-    login() {
-      const {username, password} = this
+    login () {
+      const { username, password } = this
       if (!username || !password) {
         alert('请输入用户名和密码')
         return
