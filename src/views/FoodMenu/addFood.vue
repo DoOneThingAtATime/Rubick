@@ -6,7 +6,7 @@
     </div>
     <div class="form">
       <div class="label">食物名称</div>
-      <input type="text">
+      <input type="text" v-model="foodName">
     </div>
     <div class="buttonBox" @click="onClickAdd">Add --></div>
   </div>
@@ -22,7 +22,8 @@ export default {
   },
   data () {
     return {
-      currentUser: null
+      currentUser: null,
+      foodName: ''
     }
   },
   methods: {
@@ -41,25 +42,14 @@ export default {
     },
     onClickAdd () {
       // 该语句应该只声明一次
-      const TestObject = AV.Object.extend('DataTypeTest')
-
-      const number = 2014
-      const string = 'famous film name is ' + number
-      const date = new Date()
-      const array = [string, number]
-      const object = { number: number, string: string }
-
-      const testObject = new TestObject()
-      const username = this.currentUser.attributes.username
-      testObject.set('username', username)
-      testObject.set('testNumber', number)
-      testObject.set('testString', string)
-      testObject.set('testDate', date)
-      testObject.set('testArray', array)
-      testObject.set('testObject', object)
-      testObject.set('testNull', null)
-      testObject.save().then(function (testObject) {
+      const AFood = AV.Object.extend('Food')
+      const { currentUser, foodName } = this
+      const food = new AFood()
+      food.set('foodName', foodName)
+      food.set('user', currentUser)
+      food.save().then(function (testObject) {
         // 成功
+        this.$Message.success('添加成功')
       }, (error) => {
         // 失败
         this.$Message.error(JSON.stringify(error))

@@ -1,6 +1,6 @@
 <template>
   <div class="randomFoodPage">
-    ramdomFood
+    randomFood
   </div>
 </template>
 
